@@ -1,7 +1,5 @@
 const passport=require('passport')
 const usermodel=require('../model/usermodel')
-
-
 var JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
 var opts = {}
@@ -12,7 +10,8 @@ opts.secretOrKey = process.env.secretword;
 passport.initialize()
 passport.use(new JwtStrategy(opts, async(decoded, done)=> {
  
-        try {  const user=await usermodel.findOne({id: decoded._id}).select('-password')
+        try {  const user=await usermodel.findOne({_id: decoded._id}).select('-password')
+        // console.log(user)
             if (!user) {
                 return done(null, false);
             }

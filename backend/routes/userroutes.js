@@ -1,6 +1,8 @@
 const express=require("express")
+const { getallusers } = require("../controllers/admincontrollers")
 const { signUp, signIn, current } = require("../controllers/authcontroller")
 const { registerrules, validator, loginrules } = require("../midlewares/bodyvalidator")
+const isadmin = require("../midlewares/isadmin")
 const router = express.Router()
 const isAuth=require('../midlewares/isOff')
 /**
@@ -23,6 +25,16 @@ router.post("/signup",registerrules(),validator,signUp)
  * @access private
  */
   router.get("/currentUser",isAuth(),current)
+
+
+  /**
+ * @params GET /user
+ * @description get all users
+ * @access protected
+ */
+   router.get("/",isAuth(),isadmin,getallusers)
+
+  
 
 
 
